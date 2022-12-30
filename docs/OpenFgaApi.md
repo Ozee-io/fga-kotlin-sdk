@@ -32,8 +32,8 @@ The Check API queries to check if the user has a certain relationship with an ob
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -81,8 +81,8 @@ Create a unique OpenFGA store which will be used to store authorization models a
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val body : CreateStoreRequest =  // CreateStoreRequest | 
@@ -128,8 +128,8 @@ Delete an OpenFGA store. This does not delete the data associated with the store
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -174,8 +174,8 @@ The Expand API will return all users and usersets that have certain relationship
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -223,8 +223,8 @@ Returns an OpenFGA store by its identifier
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -270,8 +270,8 @@ The ListObjects API returns a list of all the objects of the given type that the
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -319,8 +319,8 @@ Returns a paginated list of OpenFGA stores.
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val pageSize : kotlin.Int = 56 // kotlin.Int | 
@@ -368,8 +368,8 @@ The Read API will return the tuples for a certain store that match a query filte
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -417,8 +417,8 @@ The ReadAssertions API will return, for a given authorization model id, all the 
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -466,8 +466,8 @@ The ReadAuthorizationModel API returns an authorization model by its identifier.
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -515,8 +515,8 @@ The ReadAuthorizationModels API will return all the authorization models for a c
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -566,8 +566,8 @@ The ReadChanges API will return a paginated list of tuple changes (additions and
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -619,8 +619,8 @@ The Write API will update the tuples for a certain store. Tuples and type defini
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -668,8 +668,8 @@ The WriteAssertions API will upsert new assertions for an authorization model id
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 
@@ -718,8 +718,8 @@ The WriteAuthorizationModel API will add a new authorization model to a store. E
 ### Example
 ```kotlin
 // Import classes:
-//import io.ozee.openfga.client.infrastructure.*
-//import io.ozee.openfga.client.models.*
+//import dev.openfga.kotlin.client.infrastructure.*
+//import dev.openfga.kotlin.client.models.*
 
 val apiInstance = OpenFgaApi()
 val storeId : kotlin.String = storeId_example // kotlin.String | 

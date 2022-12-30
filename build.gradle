@@ -1,5 +1,10 @@
-group 'io.ozee'
+group 'dev.openfga'
 version '1.0.0'
+
+wrapper {
+    gradleVersion = '6.8.3'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
 
 buildscript {
     ext.kotlin_version = '1.5.10'
