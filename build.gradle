@@ -1,4 +1,4 @@
-group 'dev.openfga'
+group 'io.ozee'
 version '1.0.0'
 
 wrapper {

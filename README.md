@@ -56,7 +56,13 @@ OpenFGA is designed to make it easy for application builders to model their perm
 
 ## Installation
 
+Add the package to your `gradle.build.kts` as a dependency like so:
 
+```gradle
+dependencies {
+    implementation("io.ozee.openfga.client:0.0.1")
+}
+```
 
 ## Getting Started
 
@@ -64,6 +70,23 @@ OpenFGA is designed to make it easy for application builders to model their perm
 
 [Learn how to initialize your SDK](https://openfga.dev/docs/getting-started/setup-sdk-client)
 
+The OpenFGA client for Kotlin returns a okhttp client for usage. For more information on okhttp, see [this link](https://www.baeldung.com/guide-to-okhttp)
+
+### Without Store ID
+
+update the properties file (Found at `kotlin/main/resources/application.properties`) file with the url of your openfga server.
+```kotlin
+dev.openfga.kotlin.client.baseUrl=http://localhost:8080
+
+```
+
+To configure the SDK API client without store ID, we can initialize the api client by specifying the scheme and host.
+
+```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+
+var client: OpenFgaApi = OpenFgaApi()
+```
 
 
 ### Get your Store ID
@@ -74,6 +97,222 @@ If your server is configured with [authentication enabled](https://openfga.dev/d
 
 ### Calling the API
 
+#### List Stores
+
+[API Documentation](https://openfga.dev/api/service/docs/api#/Stores/ListStores)
+
+```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import org.springframework.beans.factory.annotation.Value
+
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.listStores(pageSize = 20, continuationToken = null)
+
+response.stores?.forEach { print{it.name} }
+```
+
+#### Create Store
+
+[API Documentation](https://openfga.dev/api/service/docs/api#/Stores/CreateStore)
+
+```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.CreateStoreRequest
+
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.createStore(CreateStoreRequest(
+name = "FGA Demo Store"
+))
+
+print(response.id)
+```
+
+
+#### Get Store
+
+[API Documentation](https://openfga.dev/api/service/docs/api#/Stores/GetStore)
+
+```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import org.springframework.beans.factory.annotation.Value
+
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.getStore(storeId=storeId)
+
+print(response.id)
+```
+
+#### Delete Store
+
+[API Documentation](https://openfga.dev/api/service/docs/api#/Stores/DeleteStore)
+
+> Requires a client initialized with a storeId
+
+```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import org.springframework.beans.factory.annotation.Value
+
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.deleteStore(storeId=storeId)
+```
+
+#### Write Authorization Model
+
+[API Documentation](https://openfga.dev/api/service#/Authorization%20Models/WriteAuthorizationModel)
+
+> Requires a client initialized with a storeId
+
+> Note: To learn how to build your authorization model, check the Docs at https://openfga.dev/docs.
+
+> Learn more about [the OpenFGA configuration language](https://openfga.dev/docs/configuration-language).
+
+```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
+
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.writeAuthorizationModel(
+    storeId=storeId,
+    body = WriteAuthorizationModelRequest(
+        typeDefinitions = listOf(TypeDefinition(
+            type = "Document",
+            relations = mapOf(
+                "writer" to Userset(),
+                "viewer" to Userset(
+                    union = Usersets(
+                        child = listOf(
+                            Userset(),
+                            Userset(computedUserset = ObjectRelation(
+                                `object` = "",
+                                relation = "writer"
+                            ))
+                        )
+                    )
+                )
+            )
+        ))
+    )
+)
+
+println(response.authorizationModelId)
+```
+
+
+#### Read a Single Authorization Model
+
+[API Documentation](https://openfga.dev/api/service#/Authorization%20Models/ReadAuthorizationModel)
+
+```kotlin
+
+```
+
+#### Read Authorization Model IDs
+
+[API Documentation](https://openfga.dev/api/service#/Authorization%20Models/ReadAuthorizationModels)
+
+```kotlin
+
+```
+
+
+#### Check
+
+[API Documentation](https://openfga.dev/api/service#/Relationship%20Queries/Check)
+
+```kotlin
+
+```
+
+
+#### Write Tuples
+
+[API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/Write)
+
+```kotlin
+
+```
+
+#### Delete Tuples
+
+[API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/Write)
+
+```kotlin
+
+```
+
+#### Expand
+
+[API Documentation](https://openfga.dev/api/service#/Relationship%20Queries/Expand)
+
+```kotlin
+
+```
+
+#### Read Changes
+
+[API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/Read)
+
+```kotlin
+
+```
+
+#### Read Changes (Watch)
+
+[API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/ReadChanges)
+
+```kotlin
+
+```
+
+#### List Objects
+
+[API Documentation](https://openfga.dev/api/service#/Relationship%20Queries/ListObjects)
+
+```kotlin
+
+```
 
 
 ### API Endpoints
