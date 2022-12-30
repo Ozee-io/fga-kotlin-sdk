@@ -70,17 +70,9 @@ dependencies {
 
 [Learn how to initialize your SDK](https://openfga.dev/docs/getting-started/setup-sdk-client)
 
-The OpenFGA client for Kotlin returns a okhttp client for usage. For more information on okhttp, see [this link](https://www.baeldung.com/guide-to-okhttp)
+To initialise the client, you need to have set the URL in application properties under `dev.openfga.kotlin.client.baseUrl`
 
-### Without Store ID
-
-update the properties file (Found at `kotlin/main/resources/application.properties`) file with the url of your openfga server.
-```kotlin
-dev.openfga.kotlin.client.baseUrl=http://localhost:8080
-
-```
-
-To configure the SDK API client without store ID, we can initialize the api client by specifying the scheme and host.
+You can then create the client like this:
 
 ```kotlin
 import dev.openfga.kotlin.client.apis.OpenFgaApi
@@ -88,6 +80,15 @@ import dev.openfga.kotlin.client.apis.OpenFgaApi
 var client: OpenFgaApi = OpenFgaApi()
 ```
 
+If you would like to authenticate against the client with an api token, it looks like this:
+
+# TODO: SHOW API Auth
+
+```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+
+var client: OpenFgaApi = OpenFgaApi()
+```
 
 ### Get your Store ID
 
@@ -245,7 +246,27 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Authorization%20Models/ReadAuthorizationModel)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.readAuthorizationModel(
+    storeId=storeId,
+    id = "1uHxCSuTP0VKPYSnkq1pbb1jeZw" //  Assuming `1uHxCSuTP0VKPYSnkq1pbb1jeZw` is an id of an existing model
+)
+
+println(response.authorizationModel?.schemaVersion)
 ```
 
 #### Read Authorization Model IDs
@@ -253,7 +274,24 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Authorization%20Models/ReadAuthorizationModels)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.readAuthorizationModels(
+    storeId=storeId,
+)
 ```
 
 
@@ -262,7 +300,34 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Relationship%20Queries/Check)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.check(
+    storeId=storeId,
+    body= CheckRequest(
+        tupleKey=TupleKey(
+            user="user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+            relation="viewer",
+            `object`="document:roadmap",
+        ),
+        authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"
+    )
+)
+
+println(response.allowed)
 ```
 
 
@@ -271,7 +336,34 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/Write)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.write(
+    storeId=storeId,
+    body= WriteRequest(
+        writes= TupleKeys(
+            tupleKeys = listOf(TupleKey(
+                user="user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+                relation="viewer",
+                `object`="document:roadmap",
+            )),
+        ),
+        authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"
+    )
+)
 ```
 
 #### Delete Tuples
@@ -279,7 +371,34 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/Write)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.write(
+    storeId=storeId,
+    body = WriteRequest(
+        deletes = TupleKeys(
+            tupleKeys = listOf(TupleKey(
+                user="user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+                relation="viewer",
+                `object`="document:roadmap",
+            )),
+        ),
+        authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"
+    )
+)
 ```
 
 #### Expand
@@ -287,7 +406,31 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Relationship%20Queries/Expand)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.expand(
+    storeId=storeId,
+    body= ExpandRequest(
+        tupleKey=TupleKey(
+            relation="viewer",
+            `object`="document:roadmap",
+        ),
+        authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"
+    )
+)
 ```
 
 #### Read Changes
@@ -295,7 +438,63 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/Read)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+
+// Find if a relationship tuple stating that a certain user is a viewer of certain document
+var body = ReadRequest(
+    pageSize = 25,
+    tupleKey = TupleKey(
+        user="user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+        relation="viewer",
+        `object`="document:roadmap",
+    )
+)
+
+// Find all relationship tuples where a certain user has a relationship as any relation to a certain document
+var body = ReadRequest(
+    pageSize = 25,
+    tupleKey = TupleKey(
+        user="user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+        `object`="document:roadmap",
+    )
+)
+
+// Find all relationship tuples where a certain user is a viewer of any document
+var body = ReadRequest(
+    pageSize = 25,
+    tupleKey = TupleKey(
+        user="user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+        relation="viewer",
+        `object`="document:",
+    )
+)
+
+// Find all relationship tuples where any user has a relationship as any relation with a particular document
+var body = ReadRequest(
+    pageSize = 25,
+    tupleKey = TupleKey(
+        `object`="document:roadmap",
+    )
+)
+
+// Read all stored relationship tuples
+var body = ReadRequest()
+
+val response = api.read(storeId=StoreId, body=body)
 ```
 
 #### Read Changes (Watch)
@@ -303,7 +502,26 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Relationship%20Tuples/ReadChanges)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.readChanges(
+    storeId = storeId,
+    type = "document",
+    pageSize = 25
+)
 ```
 
 #### List Objects
@@ -311,17 +529,123 @@ println(response.authorizationModelId)
 [API Documentation](https://openfga.dev/api/service#/Relationship%20Queries/ListObjects)
 
 ```kotlin
+import dev.openfga.kotlin.client.apis.OpenFgaApi
+import dev.openfga.kotlin.client.models.*
+import org.springframework.beans.factory.annotation.Value
 
+// Ensuring you have an application.properties file with
+// dev.openfga.kotlin.client.storeID=<STOREID>
+// dev.openfga.kotlin.client.baseUrl=<BASEURL>
+
+// Get StoreID from Properties
+@Value("\${dev.openfga.kotlin.client.storeId}")
+lateinit var storeId: String
+
+// Create an instance of the API
+private val api: OpenFgaApi = OpenFgaApi()
+
+val response = api.listObjects(
+    storeId = storeId,
+    body = ListObjectsRequest(
+        type = "document",
+        authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw",
+        user = "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+        relation = "viewer",
+        contextualTuples = ContextualTupleKeys(
+            // optional
+            tupleKeys = listOf<TupleKey>(
+                TupleKey(
+                    user = "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+                    relation = "writer",
+                    `object` = "document:budget",
+                ),
+            ),
+        ),
+    )
+)
 ```
 
 
 ### API Endpoints
 
-
+| Class        | Method                                                                        | HTTP request                                                   | Description                                                                                                                                    |
+|--------------|-------------------------------------------------------------------------------|----------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| *OpenFgaApi* | [**check**](docs/OpenFgaApi.md#check)                                         | **POST** /stores/{store_id}/check                              | Check whether a user is authorized to access an object                                                                                         |
+| *OpenFgaApi* | [**create_store**](docs/OpenFgaApi.md#create_store)                           | **POST** /stores                                               | Create a store                                                                                                                                 |
+| *OpenFgaApi* | [**delete_store**](docs/OpenFgaApi.md#delete_store)                           | **DELETE** /stores/{store_id}                                  | Delete a store                                                                                                                                 |
+| *OpenFgaApi* | [**expand**](docs/OpenFgaApi.md#expand)                                       | **POST** /stores/{store_id}/expand                             | Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship |
+| *OpenFgaApi* | [**get_store**](docs/OpenFgaApi.md#get_store)                                 | **GET** /stores/{store_id}                                     | Get a store                                                                                                                                    |
+| *OpenFgaApi* | [**list_objects**](docs/OpenFgaApi.md#list_objects)                           | **POST** /stores/{store_id}/list-objects                       | [EXPERIMENTAL] Get all object ids of the given type that the user has a relation with                                                          |
+| *OpenFgaApi* | [**list_stores**](docs/OpenFgaApi.md#list_stores)                             | **GET** /stores                                                | List all stores                                                                                                                                |
+| *OpenFgaApi* | [**read**](docs/OpenFgaApi.md#read)                                           | **POST** /stores/{store_id}/read                               | Get tuples from the store that matches a query, without following userset rewrite rules                                                        |
+| *OpenFgaApi* | [**read_assertions**](docs/OpenFgaApi.md#read_assertions)                     | **GET** /stores/{store_id}/assertions/{authorization_model_id} | Read assertions for an authorization model ID                                                                                                  |
+| *OpenFgaApi* | [**read_authorization_model**](docs/OpenFgaApi.md#read_authorization_model)   | **GET** /stores/{store_id}/authorization-models/{id}           | Return a particular version of an authorization model                                                                                          |
+| *OpenFgaApi* | [**read_authorization_models**](docs/OpenFgaApi.md#read_authorization_models) | **GET** /stores/{store_id}/authorization-models                | Return all the authorization models for a particular store                                                                                     |
+| *OpenFgaApi* | [**read_changes**](docs/OpenFgaApi.md#read_changes)                           | **GET** /stores/{store_id}/changes                             | Return a list of all the tuple changes                                                                                                         |
+| *OpenFgaApi* | [**write**](docs/OpenFgaApi.md#write)                                         | **POST** /stores/{store_id}/write                              | Add or delete tuples from the store                                                                                                            |
+| *OpenFgaApi* | [**write_assertions**](docs/OpenFgaApi.md#write_assertions)                   | **PUT** /stores/{store_id}/assertions/{authorization_model_id} | Upsert assertions for an authorization model ID                                                                                                |
+| *OpenFgaApi* | [**write_authorization_model**](docs/OpenFgaApi.md#write_authorization_model) | **POST** /stores/{store_id}/authorization-models               | Create a new authorization model                                                                                                               |
 
 ### Models
 
+### Models
 
+## Documentation For Models
+
+- [Any](docs/Any.md)
+- [Assertion](docs/Assertion.md)
+- [AuthorizationModel](docs/AuthorizationModel.md)
+- [CheckRequest](docs/CheckRequest.md)
+- [CheckResponse](docs/CheckResponse.md)
+- [Computed](docs/Computed.md)
+- [ContextualTupleKeys](docs/ContextualTupleKeys.md)
+- [CreateStoreRequest](docs/CreateStoreRequest.md)
+- [CreateStoreResponse](docs/CreateStoreResponse.md)
+- [Difference](docs/Difference.md)
+- [ErrorCode](docs/ErrorCode.md)
+- [ExpandRequest](docs/ExpandRequest.md)
+- [ExpandResponse](docs/ExpandResponse.md)
+- [GetStoreResponse](docs/GetStoreResponse.md)
+- [InternalErrorCode](docs/InternalErrorCode.md)
+- [InternalErrorMessageResponse](docs/InternalErrorMessageResponse.md)
+- [Leaf](docs/Leaf.md)
+- [ListObjectsRequest](docs/ListObjectsRequest.md)
+- [ListObjectsResponse](docs/ListObjectsResponse.md)
+- [ListStoresResponse](docs/ListStoresResponse.md)
+- [Metadata](docs/Metadata.md)
+- [Node](docs/Node.md)
+- [Nodes](docs/Nodes.md)
+- [NotFoundErrorCode](docs/NotFoundErrorCode.md)
+- [ObjectRelation](docs/ObjectRelation.md)
+- [PathUnknownErrorMessageResponse](docs/PathUnknownErrorMessageResponse.md)
+- [ReadAssertionsResponse](docs/ReadAssertionsResponse.md)
+- [ReadAuthorizationModelResponse](docs/ReadAuthorizationModelResponse.md)
+- [ReadAuthorizationModelsResponse](docs/ReadAuthorizationModelsResponse.md)
+- [ReadChangesResponse](docs/ReadChangesResponse.md)
+- [ReadRequest](docs/ReadRequest.md)
+- [ReadResponse](docs/ReadResponse.md)
+- [RelationMetadata](docs/RelationMetadata.md)
+- [RelationReference](docs/RelationReference.md)
+- [Status](docs/Status.md)
+- [Store](docs/Store.md)
+- [Tuple](docs/Tuple.md)
+- [TupleChange](docs/TupleChange.md)
+- [TupleKey](docs/TupleKey.md)
+- [TupleKeys](docs/TupleKeys.md)
+- [TupleOperation](docs/TupleOperation.md)
+- [TupleToUserset](docs/TupleToUserset.md)
+- [TypeDefinition](docs/TypeDefinition.md)
+- [Users](docs/Users.md)
+- [Userset](docs/Userset.md)
+- [UsersetTree](docs/UsersetTree.md)
+- [UsersetTreeDifference](docs/UsersetTreeDifference.md)
+- [UsersetTreeTupleToUserset](docs/UsersetTreeTupleToUserset.md)
+- [Usersets](docs/Usersets.md)
+- [ValidationErrorMessageResponse](docs/ValidationErrorMessageResponse.md)
+- [WriteAssertionsRequest](docs/WriteAssertionsRequest.md)
+- [WriteAuthorizationModelRequest](docs/WriteAuthorizationModelRequest.md)
+- [WriteAuthorizationModelResponse](docs/WriteAuthorizationModelResponse.md)
+- [WriteRequest](docs/WriteRequest.md)
 
 ## Contributing
 
