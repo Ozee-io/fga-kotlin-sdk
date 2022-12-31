@@ -24,6 +24,7 @@ import io.ozee.openfga.client.models.ContextualTupleKeys
 import io.ozee.openfga.client.models.TupleKey
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -49,5 +50,10 @@ data class CheckRequest (
     @Json(name = "trace")
     val trace: kotlin.Boolean? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

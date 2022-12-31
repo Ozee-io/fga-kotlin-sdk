@@ -22,6 +22,7 @@ package io.ozee.openfga.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * RelationReference represents a relation of a particular object type (e.g. 'document#viewer').
@@ -42,5 +43,10 @@ data class RelationReference (
     @Json(name = "wildcard")
     val wildcard: kotlin.Any? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

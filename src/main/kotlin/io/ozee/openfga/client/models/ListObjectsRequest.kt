@@ -23,6 +23,7 @@ package io.ozee.openfga.client.models
 import io.ozee.openfga.client.models.ContextualTupleKeys
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -51,5 +52,10 @@ data class ListObjectsRequest (
     @Json(name = "contextual_tuples")
     val contextualTuples: ContextualTupleKeys? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

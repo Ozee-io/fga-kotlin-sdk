@@ -23,6 +23,7 @@ package io.ozee.openfga.client.models
 import io.ozee.openfga.client.models.Node
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * A UsersetTree contains the result of an Expansion.
@@ -35,5 +36,10 @@ data class UsersetTree (
     @Json(name = "root")
     val root: Node? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

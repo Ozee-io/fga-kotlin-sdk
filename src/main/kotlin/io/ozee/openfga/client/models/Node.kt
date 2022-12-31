@@ -25,6 +25,7 @@ import io.ozee.openfga.client.models.Nodes
 import io.ozee.openfga.client.models.UsersetTreeDifference
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -53,5 +54,10 @@ data class Node (
     @Json(name = "intersection")
     val intersection: Nodes? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

@@ -23,6 +23,7 @@ package io.ozee.openfga.client.models
 import io.ozee.openfga.client.models.RelationReference
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -35,5 +36,10 @@ data class RelationMetadata (
     @Json(name = "directly_related_user_types")
     val directlyRelatedUserTypes: kotlin.collections.List<RelationReference>? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

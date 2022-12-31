@@ -23,6 +23,7 @@ package io.ozee.openfga.client.models
 import io.ozee.openfga.client.models.AuthorizationModel
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -35,5 +36,10 @@ data class ReadAuthorizationModelResponse (
     @Json(name = "authorization_model")
     val authorizationModel: AuthorizationModel? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

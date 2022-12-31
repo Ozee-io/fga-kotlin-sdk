@@ -26,6 +26,7 @@ import io.ozee.openfga.client.models.TupleToUserset
 import io.ozee.openfga.client.models.Usersets
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -59,5 +60,10 @@ data class Userset (
     @Json(name = "difference")
     val difference: Difference? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

@@ -23,6 +23,7 @@ package io.ozee.openfga.client.models
 import io.ozee.openfga.client.models.TupleKey
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -39,5 +40,10 @@ data class Assertion (
     @Json(name = "expectation")
     val expectation: kotlin.Boolean
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

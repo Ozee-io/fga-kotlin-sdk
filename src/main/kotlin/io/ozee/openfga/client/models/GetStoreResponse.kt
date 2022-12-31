@@ -22,6 +22,7 @@ package io.ozee.openfga.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -46,5 +47,10 @@ data class GetStoreResponse (
     @Json(name = "updated_at")
     val updatedAt: java.time.OffsetDateTime? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

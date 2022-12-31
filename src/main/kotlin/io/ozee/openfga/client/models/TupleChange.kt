@@ -24,6 +24,7 @@ import io.ozee.openfga.client.models.TupleKey
 import io.ozee.openfga.client.models.TupleOperation
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -44,5 +45,10 @@ data class TupleChange (
     @Json(name = "timestamp")
     val timestamp: java.time.OffsetDateTime? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

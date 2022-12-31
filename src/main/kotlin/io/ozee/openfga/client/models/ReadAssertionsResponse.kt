@@ -23,6 +23,7 @@ package io.ozee.openfga.client.models
 import io.ozee.openfga.client.models.Assertion
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -39,5 +40,10 @@ data class ReadAssertionsResponse (
     @Json(name = "assertions")
     val assertions: kotlin.collections.List<Assertion>? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

@@ -25,6 +25,7 @@ import io.ozee.openfga.client.models.Users
 import io.ozee.openfga.client.models.UsersetTreeTupleToUserset
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * A leaf node contains either - a set of users (which may be individual users, or usersets   referencing other relations) - a computed node, which is the result of a computed userset   value in the authorization model - a tupleToUserset nodes, containing the result of expanding   a tupleToUserset value in a authorization model.
@@ -45,5 +46,10 @@ data class Leaf (
     @Json(name = "tupleToUserset")
     val tupleToUserset: UsersetTreeTupleToUserset? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

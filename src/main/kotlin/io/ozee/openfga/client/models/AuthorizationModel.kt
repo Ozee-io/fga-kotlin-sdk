@@ -23,6 +23,7 @@ package io.ozee.openfga.client.models
 import io.ozee.openfga.client.models.TypeDefinition
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -43,5 +44,10 @@ data class AuthorizationModel (
     @Json(name = "type_definitions")
     val typeDefinitions: kotlin.collections.List<TypeDefinition>? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

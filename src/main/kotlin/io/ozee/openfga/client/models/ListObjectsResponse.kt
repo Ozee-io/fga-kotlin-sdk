@@ -22,6 +22,7 @@ package io.ozee.openfga.client.models
 
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -34,5 +35,10 @@ data class ListObjectsResponse (
     @Json(name = "objects")
     val objects: kotlin.collections.List<kotlin.String>? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 

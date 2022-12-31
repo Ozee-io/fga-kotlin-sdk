@@ -24,6 +24,7 @@ import io.ozee.openfga.client.models.Metadata
 import io.ozee.openfga.client.models.Userset
 
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 /**
  * 
@@ -44,5 +45,10 @@ data class TypeDefinition (
     @Json(name = "metadata")
     val metadata: Metadata? = null
 
-)
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
+
+}
 
