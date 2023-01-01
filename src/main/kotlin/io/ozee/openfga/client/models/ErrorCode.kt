@@ -37,7 +37,8 @@ enum class ErrorCode(val value: kotlin.String) {
     @Json(name = "validation_error")
     validationError("validation_error"),
 
-    @Json(name = "authorization_model_not_found")
+    @Json(name =
+    "authorization_model_not_found")
     authorizationModelNotFound("authorization_model_not_found"),
 
     @Json(name = "authorization_model_resolution_too_complex")
